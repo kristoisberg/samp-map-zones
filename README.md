@@ -103,7 +103,7 @@ stock GetPlayerZone(playerid, zone[], len = sizeof(zone))
 
 First of all, what do we see? A lot of code repetition. That's easy to fix in
 this case, but what if we also needed either the min/max position of the zone?
-You'd have to loop through the zones again or take a different approach. Which
+We'd have to loop through the zones again or take a different approach. Which
 approach does this library take? Functions like `GetMapZoneAtPoint` and
 `GetPlayerMapZone` do not return the name of the zone, they return an
 identificator of it. The name or positions of the zone must be fetched using
