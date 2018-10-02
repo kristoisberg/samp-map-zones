@@ -85,7 +85,7 @@ stock GetPlayerZone(playerid, zone[], len = sizeof(zone))
 }
 ```
 
-First of all, what do we see? A lot of code repetition. That's easy to fix in this case, but what if we also needed either the min/max position of the zone? You'd have to loop through the zones again or take a different approach. Which approach does this library take? Functions like `GetMapZoneAtPoint` and `GetPlayerMapZone` do not return the name of the zone, they return an identificator of it. The name or positions of the zone must be fetched using another function. In addition to that, I rebuilt the array of zones myself since the one used basically everywhere seems to be faulty according to [this post](https://forum.sa-mp.com/showpost.php?p=4050745&postcount=7).
+First of all, what do we see? A lot of code repetition. That's easy to fix in this case, but what if we also needed either the min/max position of the zone? We'd have to loop through the zones again or take a different approach. Which approach does this library take? Functions like `GetMapZoneAtPoint` and `GetPlayerMapZone` do not return the name of the zone, they return an identificator of it. The name or positions of the zone must be fetched using another function. In addition to that, I rebuilt the array of zones myself since the one used basically everywhere seems to be faulty according to [this post](https://forum.sa-mp.com/showpost.php?p=4050745&postcount=7).
 
 ## Installation
 
