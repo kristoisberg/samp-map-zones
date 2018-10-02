@@ -68,7 +68,7 @@ stock GetPointZone(Float:x, Float:y, Float:z, zone[] = "San Andreas", len = size
 	return 1;
 }
 
-GetPlayerZone(playerid, zone[], len = sizeof(zone))
+stock GetPlayerZone(playerid, zone[], len = sizeof(zone))
 {
     new Float:pos[3];
     GetPlayerPos(playerid, pos[0], pos[1], pos[2]);
