@@ -2,70 +2,86 @@
 
 [![sampctl](https://shields.southcla.ws/badge/sampctl-samp--map--zones-2f2f2f.svg?style=for-the-badge)](https://github.com/kristoisberg/samp-map-zones)
 
-This library does not bring anything gamechanging to the table, it's created to stop a decade long era of bad practices regarding map zones. An array of ~350 zones dumped (or manually converted?) from the game has been around for such a long time, but in that time I've never seen a satisfactory API for them. Let's look at an implementation from Emmet_'s South Central Roleplay.
+This library does not bring anything gamechanging to the table, it's created to
+stop a decade long era of bad practices regarding map zones. An array of ~350
+zones dumped (or manually converted?) from the game has been around for such a
+long time, but in that time I've never seen a satisfactory API for them. Let's
+look at an implementation from Emmet\_'s South Central Roleplay.
 
 ```pawn
 stock GetLocation(Float:fX, Float:fY, Float:fZ)
 {
     enum e_ZoneData
-	{
-     	e_ZoneName[32 char],
-     	Float:e_ZoneArea[6]
-	};
-	new const g_arrZoneData[][e_ZoneData] =
-	{
+    {
+        e_ZoneName[32 char],
+        Float:e_ZoneArea[6]
+    };
+    new const g_arrZoneData[][e_ZoneData] =
+    {
         // ...
-	};
-	new
-	    name[32] = "San Andreas";
+    };
+    new
+        name[32] = "San Andreas";
 
-	for (new i = 0; i != sizeof(g_arrZoneData); i ++) if ((fX >= g_arrZoneData[i][e_ZoneArea][0] && fX <= g_arrZoneData[i][e_ZoneArea][3]) && (fY >= g_arrZoneData[i][e_ZoneArea][1] && fY <= g_arrZoneData[i][e_ZoneArea][4]) && (fZ >= g_arrZoneData[i][e_ZoneArea][2] && fZ <= g_arrZoneData[i][e_ZoneArea][5])) {
-		strunpack(name, g_arrZoneData[i][e_ZoneName]);
+    for (new i = 0; i != sizeof(g_arrZoneData); i ++)
+    {
+        if (
+            (fX >= g_arrZoneData[i][e_ZoneArea][0] && fX <= g_arrZoneData[i][e_ZoneArea][3]) &&
+            (fY >= g_arrZoneData[i][e_ZoneArea][1] && fY <= g_arrZoneData[i][e_ZoneArea][4]) &&
+            (fZ >= g_arrZoneData[i][e_ZoneArea][2] && fZ <= g_arrZoneData[i][e_ZoneArea][5]))
+        {
+            strunpack(name, g_arrZoneData[i][e_ZoneName]);
 
-		break;
-	}
-	return name;
+            break;
+        }
+    }
+    return name;
 }
 
 stock GetPlayerLocation(playerid)
 {
-	new
-	    Float:fX,
-	    Float:fY,
-		Float:fZ,
-		string[32],
-		id = -1;
+    new
+        Float:fX,
+        Float:fY,
+        Float:fZ,
+        string[32],
+        id = -1;
 
-	if ((id = House_Inside(playerid)) != -1)
-	{
-		fX = HouseData[id][housePos][0];
-		fY = HouseData[id][housePos][1];
-		fZ = HouseData[id][housePos][2];
-	}
+    if ((id = House_Inside(playerid)) != -1)
+    {
+        fX = HouseData[id][housePos][0];
+        fY = HouseData[id][housePos][1];
+        fZ = HouseData[id][housePos][2];
+    }
     // ...
-	else GetPlayerPos(playerid, fX, fY, fZ);
+    else GetPlayerPos(playerid, fX, fY, fZ);
 
-	format(string, 32, GetLocation(fX, fY, fZ));
-	return string;
+    format(string, 32, GetLocation(fX, fY, fZ));
+    return string;
 }
 ```
 
 ![emmetemmet](https://i.imgur.com/cyUdlu4.png "Emmet Emmet")
 
-If you didn't get the reference, you should probably check out [this repository](https://github.com/sampctl/pawn-array-return-bug). `GetPlayerLocation` most likely uses `format` to prevent this bug from occurring, but the risk is still there and arrays should never be returned in PAWN. Let's take a look at another implementation that even I used a long time ago.
+If you didn't get the reference, you should probably check out
+[this repository](https://github.com/sampctl/pawn-array-return-bug).
+`GetPlayerLocation` most likely uses `format` to prevent this bug from
+occurring, but the risk is still there and arrays should never be returned in
+PAWN. Let's take a look at another implementation that even I used a long time
+ago.
 
 ```pawn
 stock GetPointZone(Float:x, Float:y, Float:z, zone[] = "San Andreas", len = sizeof(zone))
 {
-	for (new i, j = sizeof(Zones); i < j; i++)
-	{
-		if (x >= Zones[i][zArea][0] && x <= Zones[i][zArea][3] && y >= Zones[i][zArea][1] && y <= Zones[i][zArea][4] && z >= Zones[i][zArea][2] && z <= Zones[i][zArea][5])
-		{
-		    strunpack(zone, Zones[i][zName], len);
-			return 1;
-		}
-	}
-	return 1;
+    for (new i, j = sizeof(Zones); i < j; i++)
+    {
+        if (x >= Zones[i][zArea][0] && x <= Zones[i][zArea][3] && y >= Zones[i][zArea][1] && y <= Zones[i][zArea][4] && z >= Zones[i][zArea][2] && z <= Zones[i][zArea][5])
+        {
+            strunpack(zone, Zones[i][zName], len);
+            return 1;
+        }
+    }
+    return 1;
 }
 
 stock GetPlayerZone(playerid, zone[], len = sizeof(zone))
@@ -73,19 +89,27 @@ stock GetPlayerZone(playerid, zone[], len = sizeof(zone))
     new Float:pos[3];
     GetPlayerPos(playerid, pos[0], pos[1], pos[2]);
 
-	for (new i, j = sizeof(Zones); i < j; i++)
-	{
-		if (x >= Zones[i][zArea][0] && x <= Zones[i][zArea][3] && y >= Zones[i][zArea][1] && y <= Zones[i][zArea][4] && z >= Zones[i][zArea][2] && z <= Zones[i][zArea][5])
-		{
-		    strunpack(zone, Zones[i][zName], len);
-			return 1;
-		}
-	}
-	return 1;
+    for (new i, j = sizeof(Zones); i < j; i++)
+    {
+        if (x >= Zones[i][zArea][0] && x <= Zones[i][zArea][3] && y >= Zones[i][zArea][1] && y <= Zones[i][zArea][4] && z >= Zones[i][zArea][2] && z <= Zones[i][zArea][5])
+        {
+            strunpack(zone, Zones[i][zName], len);
+            return 1;
+        }
+    }
+    return 1;
 }
 ```
 
-First of all, what do we see? A lot of code repetition. That's easy to fix in this case, but what if we also needed either the min/max position of the zone? We'd have to loop through the zones again or take a different approach. Which approach does this library take? Functions like `GetMapZoneAtPoint` and `GetPlayerMapZone` do not return the name of the zone, they return an identificator of it. The name or positions of the zone must be fetched using another function. In addition to that, I rebuilt the array of zones myself since the one used basically everywhere seems to be faulty according to [this post](https://forum.sa-mp.com/showpost.php?p=4050745&postcount=7).
+First of all, what do we see? A lot of code repetition. That's easy to fix in
+this case, but what if we also needed either the min/max position of the zone?
+We'd have to loop through the zones again or take a different approach. Which
+approach does this library take? Functions like `GetMapZoneAtPoint` and
+`GetPlayerMapZone` do not return the name of the zone, they return an
+identificator of it. The name or positions of the zone must be fetched using
+another function. In addition to that, I rebuilt the array of zones myself since
+the one used basically everywhere seems to be faulty according to
+[this post](https://forum.sa-mp.com/showpost.php?p=4050745&postcount=7).
 
 ## Installation
 
@@ -103,22 +127,29 @@ Include in your code and begin using the library:
 
 ## Usage
 
-* `MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z)`
-    * Returns the ID of the map zone the point is in or `INVALID_MAP_ZONE_ID` if it isn't in any.
-* `MapZone:GetPlayerMapZone(playerid)`
-    * Returns the ID of the map zone the player is in or `INVALID_MAP_ZONE_ID` if it isn't in any.
-* `MapZone:GetVehicleMapZone(vehicleid)`
-    * Returns the ID of the map zone the vehicle is in or `INVALID_MAP_ZONE_ID` if it isn't in any.
-* `bool:IsValidMapZone(MapZone:id)`
-    * Returns `true` or `false` depending on if the map zone is valid or not.
-* `bool:GetMapZoneName(MapZone:id, name[], size = sizeof(name))`
-    * Retrieves the name of the map zone. Returns `true` or `false` depending on if the map zone is valid or not.
-* `bool:GetMapZoneMinPoint(MapZone:id, &Float:x, &Float:y, &Float:z)`
-    * Retrieves the coordinates of the minimum position of the map zone. Returns `true` or `false` depending on if the map zone is valid or not.
-* `bool:GetMapZoneMaxPoint(MapZone:id, &Float:x, &Float:y, &Float:z)`
-    * Retrieves the coordinates of the maximum position of the map zone. Returns `true` or `false` depending on if the map zone is valid or not.
-* `GetMapZoneCount()`
-    * Returns the count of map zones in the array. Could be used for iteration purposes.
+- `MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z)`
+  - Returns the ID of the map zone the point is in or `INVALID_MAP_ZONE_ID` if
+    it isn't in any.
+- `MapZone:GetPlayerMapZone(playerid)`
+  - Returns the ID of the map zone the player is in or `INVALID_MAP_ZONE_ID` if
+    it isn't in any.
+- `MapZone:GetVehicleMapZone(vehicleid)`
+  - Returns the ID of the map zone the vehicle is in or `INVALID_MAP_ZONE_ID` if
+    it isn't in any.
+- `bool:IsValidMapZone(MapZone:id)`
+  - Returns `true` or `false` depending on if the map zone is valid or not.
+- `bool:GetMapZoneName(MapZone:id, name[], size = sizeof(name))`
+  - Retrieves the name of the map zone. Returns `true` or `false` depending on
+    if the map zone is valid or not.
+- `bool:GetMapZoneMinPoint(MapZone:id, &Float:x, &Float:y, &Float:z)`
+  - Retrieves the coordinates of the minimum position of the map zone. Returns
+    `true` or `false` depending on if the map zone is valid or not.
+- `bool:GetMapZoneMaxPoint(MapZone:id, &Float:x, &Float:y, &Float:z)`
+  - Retrieves the coordinates of the maximum position of the map zone. Returns
+    `true` or `false` depending on if the map zone is valid or not.
+- `GetMapZoneCount()`
+  - Returns the count of map zones in the array. Could be used for iteration
+    purposes.
 
 ## Example
 
