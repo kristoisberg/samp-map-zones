@@ -416,24 +416,22 @@ stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
 
 
 stock MapZone:GetPlayerMapZone(playerid) {
-    if (!IsPlayerConnected(playerid)) {
+    new Float:x, Float:y, Float:z;
+
+    if (!GetPlayerPos(playerid, x, y, z)) {
         return INVALID_MAP_ZONE_ID;
     }
-
-    new Float:x, Float:y, Float:z;
-    GetPlayerPos(playerid, x, y, z);
 
     return GetMapZoneAtPoint(x, y, z);
 }
 
 
 stock MapZone:GetVehicleMapZone(vehicleid) {
-    if (!IsValidVehicle(vehicleid)) {
+    new Float:x, Float:y, Float:z;
+
+    if (!GetVehiclePos(vehicleid, x, y, z)) {
         return INVALID_MAP_ZONE_ID;
     }
-
-    new Float:x, Float:y, Float:z;
-    GetVehiclePos(vehicleid, x, y, z);
 
     return GetMapZoneAtPoint(x, y, z);
 }
