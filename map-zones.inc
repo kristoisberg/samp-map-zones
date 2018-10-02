@@ -6,8 +6,8 @@
 #include <a_samp>
 
 
-#define MAX_MAP_ZONE_NAME 32
-#define INVALID_MAP_ZONE_ID MapZone:-1
+#define MAX_MAP_ZONE_NAME (32)
+#define INVALID_MAP_ZONE_ID (MapZone:-1)
 
 
 static enum mapZoneData {
