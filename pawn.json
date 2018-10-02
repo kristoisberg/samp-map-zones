@@ -1,6 +1,6 @@
 {
 	"user": "kristoisberg",
-	"repo": "map-zones",
+	"repo": "samp-map-zones",
 	"entry": "test.pwn",
 	"output": "test.amx",
 	"dependencies": [
