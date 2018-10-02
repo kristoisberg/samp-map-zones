@@ -22,7 +22,7 @@ static enum mapZoneData {
     Float:zMaxZ
 };
 
-static MapZoneData[][mapZoneData] = {
+static const MapZoneData[][mapZoneData] = {
     {!"Bayside Marina", -2353.169921, 2275.790039, 0.000000, -2153.169921, 2475.790039, 200.000000},
     {!"Bayside", -2741.070068, 2175.149902, 0.000000, -2353.169921, 2722.790039, 200.000000},
     {!"Battery Point", -2741.070068, 1268.410034, -0.000045, -2533.040039, 1490.469970, 200.000000},
