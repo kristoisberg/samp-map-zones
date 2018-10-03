@@ -2,7 +2,7 @@
 
 
 main() {
-    new MapZone:zone = GetMapZoneAtPoint(2051.7, -2597.2, -39.0);
+    new MapZone:zone = GetMapZoneAtPoint(-3500.0, -3500.0, 0.0);
 
     if (zone != INVALID_MAP_ZONE_ID) {
         new name[32], soundid, count;
@@ -20,6 +20,8 @@ main() {
             printf("%f %f %f %f %f %f", minX, minY, minZ, maxX, maxY, maxZ);
             area++;
         }
+    } else {
+        print("invalid zone");
     }
 
     return 1;

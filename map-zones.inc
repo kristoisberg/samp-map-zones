@@ -775,6 +775,10 @@ stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
 		}
 	}
 
+	if (right < EXCLUDED_MAP_ZONE_AREA_COUNT || left >= size) {
+		return INVALID_MAP_ZONE_ID;
+	}
+
 	if (!found) {
 		index = right;
 	}
