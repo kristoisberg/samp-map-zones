@@ -759,8 +759,6 @@ stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
 	while (left <= right) {
 		index = (left + right) / 2;
 
-		printf("%f %f %i %i %i", MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_X], x, index, left, right);
-
 		switch (floatcmp(MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_X], x)) {
 			case 0: {
 				found = true;
@@ -784,8 +782,6 @@ stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
 	while (index < size - 1 && MapZoneAreaData[index + 1][E_MAP_ZONE_AREA_MIN_X] == MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_X]) {
 		index++;
 	}
-
-	printf("%f <= %f < %f", MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_X], x, MapZoneAreaData[index + 1][E_MAP_ZONE_AREA_MIN_X]);
 
 	while (index >= 0) {
 		if (x < MapZoneAreaData[index][E_MAP_ZONE_AREA_MAX_X] && 
