@@ -2,7 +2,7 @@
 
 
 main() {
-    new MapZone:zone = GetMapZoneAtPoint(-3500.0, -3500.0, 0.0);
+    new MapZone:zone = GetMapZoneAtPoint(2162.4, 2012.2, -89.0);
 
     if (zone != INVALID_MAP_ZONE_ID) {
         new name[32], soundid, count;

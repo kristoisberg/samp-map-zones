@@ -754,6 +754,10 @@ static const MapZoneAreaData[][E_MAP_ZONE_AREA_DATA] = {
 
 
 stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
+	if (!(-2997.469970 <= x < 2997.060058) || !(-2892.969970 <= y < 2993.870117) || !(-242.990005 <= z < 900.000000)) {
+		return INVALID_MAP_ZONE_ID;
+	}
+
 	new size = sizeof(MapZoneAreaData), index, left = EXCLUDED_MAP_ZONE_AREA_COUNT, right = size - 1, bool:found;
 
 	while (left <= right) {
@@ -776,15 +780,15 @@ stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
 	}
 
 	if (right < EXCLUDED_MAP_ZONE_AREA_COUNT || left >= size) {
-		return INVALID_MAP_ZONE_ID;
-	}
+		index = EXCLUDED_MAP_ZONE_AREA_COUNT - 1;
+	} else {
+		if (!found) {
+			index = right;
+		}
 
-	if (!found) {
-		index = right;
-	}
-
-	while (index < size - 1 && MapZoneAreaData[index + 1][E_MAP_ZONE_AREA_MIN_X] == MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_X]) {
-		index++;
+		while (index < size - 1 && MapZoneAreaData[index + 1][E_MAP_ZONE_AREA_MIN_X] == MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_X]) {
+			index++;
+		}
 	}
 
 	while (index >= 0) {
