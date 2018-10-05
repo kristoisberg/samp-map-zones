@@ -141,17 +141,23 @@ Include in your code and begin using the library:
 - `bool:GetMapZoneName(MapZone:id, name[], size = sizeof(name))`
   - Retrieves the name of the map zone. Returns `true` or `false` depending on
     if the map zone is valid or not.
-- `bool:GetMapZoneMinPoint(MapZone:id, &Float:x, &Float:y, &Float:z)`
-  - Retrieves the coordinates of the minimum position of the map zone. Returns
-    `true` or `false` depending on if the map zone is valid or not.
-- `bool:GetMapZoneMaxPoint(MapZone:id, &Float:x, &Float:y, &Float:z)`
-  - Retrieves the coordinates of the maximum position of the map zone. Returns
-    `true` or `false` depending on if the map zone is valid or not.
+- `bool:GetMapZoneSoundID(MapZone:id, &soundid)`
+  - Retrieves the sound ID of the map zone. Returns `true` or `false` depending 
+    on if the map zone is valid or not.
+- `bool:GetMapZoneAreaCount(MapZone:id, &count)`
+  - Retrieves the count of areas associated with the map zone. Returns `true` or 
+  `false` depending on if the map zone is valid or not.
+- `bool:GetMapZoneAreaPos(MapZone:id, area, &Float:minX = 0.0, &Float:minY = 0.0, &Float:minZ = 0.0, &Float:maxX = 0.0, &Float:maxY = 0.0, &Float:maxZ = 0.0)`
+  - Retrieves the coordinates of an area associated with the map zone. Returns
+    `true` or `false` depending on if the map zone is valid and there are enough 
+    areas associated with the map zone or not.
 - `GetMapZoneCount()`
   - Returns the count of map zones in the array. Could be used for iteration
     purposes.
 
-## Example
+## Examples
+
+### Retrieving the location of a player
 
 ```pawn
 CMD:whereami(playerid) {
@@ -161,14 +167,46 @@ CMD:whereami(playerid) {
         return SendClientMessage(playerid, 0xFFFFFFFF, "probably in the ocean, mate");
     }
 
-    new name[32];
+    new name[32], soundid;
     GetMapZoneName(zone, name);
+    GetMapZoneSoundID(zone, soundid);
 
     new string[128];
     format(string, sizeof(string), "you are in %s", name);
 
     SendClientMessage(playerid, 0xFFFFFFFF, string);
+    PlayerPlaySound(playerid, soundid, 0.0, 0.0, 0.0);
     return 1;
+}
+```
+
+### Iterating through areas associated with a map zone
+
+This approach should be preferred to using a for loop with the result of 
+`GetMapZoneAreaCount` since it needs to iterate through areas one time less.
+
+```pawn
+new zone = ZONE_RICHMAN, area, Float:minX, Float:minY, Float:minZ, Float:maxX, Float:maxY, Float:maxZ;
+
+while (GetMapZoneAreaPos(zone, area, minX, minY, minZ, maxX, maxY, maxZ)) {
+    printf("%f %f %f %f %f %f", minX, minY, minZ, maxX, maxY, maxZ);
+    area++;
+}
+```
+
+### Extending
+
+```pawn
+stock MapZone:GetPlayerOutsideMapZone(playerid) {
+    new House:houseid = GetPlayerHouseID(playerid), Float:x, Float:y, Float:z;
+
+    if (houseid != INVALID_HOUSE_ID) { // if the player is inside a house, get the exterior location of the house
+        GetHouseExteriorPos(houseid, x, y, z);
+    } else if (!GetPlayerPos(playerid, x, y, z)) { // the player isn't connected, presuming that GetPlayerHouseID returns INVALID_HOUSE_ID in that case 
+        return INVALID_MAP_ZONE_ID;
+    }
+
+    return GetMapZoneAtPoint(x, y, z);
 }
 ```
 
