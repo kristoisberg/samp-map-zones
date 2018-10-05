@@ -182,7 +182,7 @@ CMD:whereami(playerid) {
 
 ### Iterating through areas associated with a map zone
 
-This approach should be preferred to using a for loop with the result of 
+This approach should be preferred to using a `for` loop with the result of 
 `GetMapZoneAreaCount` since it needs to iterate through areas one time less.
 
 ```pawn
