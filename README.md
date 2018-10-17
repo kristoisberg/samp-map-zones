@@ -179,7 +179,7 @@ CMD:whereami(playerid) {
         return SendClientMessage(playerid, 0xFFFFFFFF, "probably in the ocean, mate");
     }
 
-    new name[32], soundid;
+    new name[MAX_MAP_ZONE_NAME], soundid;
     GetMapZoneName(zone, name);
     GetMapZoneSoundID(zone, soundid);
 
