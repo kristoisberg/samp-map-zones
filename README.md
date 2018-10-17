@@ -127,6 +127,18 @@ Include in your code and begin using the library:
 
 ## Usage
 
+### Constants
+
+- `INVALID_MAP_ZONE_ID = MapZone:-1`
+  - The return value of several functions when no map zone was matching the
+    criteria.
+- `MAX_MAP_ZONE_NAME = 27`
+  - The length of the longest map zone name including the null character.
+- `MAX_MAP_ZONE_AREAS = 13`
+  - The most areas associated with a map zone.
+
+### Functions
+
 - `MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z)`
   - Returns the ID of the map zone the point is in or `INVALID_MAP_ZONE_ID` if
     it isn't in any.
@@ -146,11 +158,11 @@ Include in your code and begin using the library:
     on if the map zone is valid or not.
 - `bool:GetMapZoneAreaCount(MapZone:id, &count)`
   - Retrieves the count of areas associated with the map zone. Returns `true` or 
-  `false` depending on if the map zone is valid or not.
-- `bool:GetMapZoneAreaPos(MapZone:id, area, &Float:minX = 0.0, &Float:minY = 0.0, &Float:minZ = 0.0, &Float:maxX = 0.0, &Float:maxY = 0.0, &Float:maxZ = 0.0)`
-  - Retrieves the coordinates of an area associated with the map zone. Returns
-    `true` or `false` depending on if the map zone is valid and there are enough 
-    areas associated with the map zone or not.
+    `false` depending on if the map zone is valid or not.
+- `GetMapZoneAreaPos(MapZone:id, &Float:minX = 0.0, &Float:minY = 0.0, &Float:minZ = 0.0, &Float:maxX = 0.0, &Float:maxY = 0.0, &Float:maxZ = 0.0, start = 0)`
+  - Retrieves the coordinates of an area associated with the map zone. Returns 
+    the array index for the area or `-1` if none were found. See the usage in 
+    in the examples section.
 - `GetMapZoneCount()`
   - Returns the count of map zones in the array. Could be used for iteration
     purposes.
@@ -182,13 +194,10 @@ CMD:whereami(playerid) {
 
 ### Iterating through areas associated with a map zone
 
-This approach should be preferred to using a `for` loop with the result of 
-`GetMapZoneAreaCount` since it needs to iterate through areas one time less.
-
 ```pawn
-new zone = ZONE_RICHMAN, area, Float:minX, Float:minY, Float:minZ, Float:maxX, Float:maxY, Float:maxZ;
+new zone = ZONE_RICHMAN, index = -1, Float:minX, Float:minY, Float:minZ, Float:maxX, Float:maxY, Float:maxZ;
 
-while (GetMapZoneAreaPos(zone, area, minX, minY, minZ, maxX, maxY, maxZ)) {
+while ((index = GetMapZoneAreaPos(zone, minX, minY, minZ, maxX, maxY, maxZ, index + 1) != -1) {
     printf("%f %f %f %f %f %f", minX, minY, minZ, maxX, maxY, maxZ);
     area++;
 }

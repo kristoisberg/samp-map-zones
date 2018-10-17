@@ -6,9 +6,10 @@
 #include <a_samp>
 
 
-#define MAX_MAP_ZONE_NAME (32)
+#define MAX_MAP_ZONE_NAME (27)
 #define INVALID_MAP_ZONE_ID (MapZone:-1)
 #define EXCLUDED_MAP_ZONE_AREA_COUNT (9)
+#define MAX_MAP_ZONE_AREAS (13)
 
 
 enum MapZone {
@@ -184,178 +185,179 @@ enum MapZone {
 
 enum E_MAP_ZONE_DATA {
 	E_MAP_ZONE_NAME[MAX_MAP_ZONE_NAME char],
-	E_MAP_ZONE_SOUND_ID
+	E_MAP_ZONE_SOUND_ID,
+	E_MAP_ZONE_AREA_COUNT
 };
 
-static const MapZoneData[][E_MAP_ZONE_DATA] = 
-{	{!"Bayside Marina", 2007},
-	{!"Bayside", 2006},
-	{!"Battery Point", 2005},
-	{!"Paradiso", 2110},
-	{!"Santa Flora", 2130},
-	{!"Palisades", 2108},
-	{!"City Hall", 2019},
-	{!"Ocean Flats", 2104},
-	{!"Foster Valley", 2049},
-	{!"Hashbury", 2061},
-	{!"Juniper Hollow", 2070},
-	{!"Esplanade North", 2038},
-	{!"Financial", 2042},
-	{!"Calton Heights", 2017},
-	{!"Downtown", 2026},
-	{!"Juniper Hill", 2069},
-	{!"Chinatown", 2018},
-	{!"Kings", 2073},
-	{!"Garcia", 2053},
-	{!"Doherty", 2025},
-	{!"Easter Bay Airport", 2031},
-	{!"Easter Basin", 2030},
-	{!"Esplanade East", 2037},
-	{!"Angel Pine", 2001},
-	{!"Shady Cabin", 2132},
-	{!"Back o Beyond", 2004},
-	{!"Leafy Hollow", 2079},
-	{!"Flint Range", 2046},
-	{!"Fallen Tree", 2039},
-	{!"The Farm", 2143},
-	{!"El Quebrados", 2036},
-	{!"Aldea Malvada", 2000},
-	{!"The Sherman Dam", 2150},
-	{!"Las Barrancas", 2074},
-	{!"Fort Carson", 2048},
-	{!"Hunter Quarry", 2063},
-	{!"Octane Springs", 2105},
-	{!"Green Palms", 2057},
-	{!"Regular Tom", 2120},
-	{!"Las Brujas", 2075},
-	{!"Verdant Meadows", 2156},
-	{!"Las Payasadas", 2076},
-	{!"Arco del Oeste", 2002},
-	{!"Hankypanky Point", 2059},
-	{!"Palomino Creek", 2109},
-	{!"North Rock", 2102},
-	{!"Montgomery", 2097},
-	{!"Hampton Barns", 2058},
-	{!"Fern Ridge", 2041},
-	{!"Dillimore", 2024},
-	{!"Hilltop Farm", 2062},
-	{!"Blueberry", 2014},
-	{!"The Panopticon", 2147},
-	{!"Frederick Bridge", 2050},
-	{!"The Mako Span", 2146},
-	{!"Blueberry Acres", 2013},
-	{!"Martin Bridge", 2095},
-	{!"Fallow Bridge", 2040},
-	{!"Shady Creeks", 2132},
-	{!"Queens", 2115},
-	{!"Gant Bridge", 2052},
-	{!"Easter Bay Chemicals", 2032},
-	{!"Los Santos International", 2088},
-	{!"Verdant Bluffs", 2155},
-	{!"El Corona", 2035},
-	{!"Willowfield", 2161},
-	{!"Ocean Docks", 2103},
-	{!"Marina", 2092},
-	{!"Verona Beach", 2157},
-	{!"Conference Center", 2022},
-	{!"Commerce", 2021},
-	{!"Pershing Square", 2021},
-	{!"Little Mexico", 2083},
-	{!"Idlewood", 2064},
-	{!"Glen Park", 2055},
-	{!"Jefferson", 2028},
-	{!"Las Colinas", 2084},
-	{!"Ganton", 2051},
-	{!"East Beach", 2029},
-	{!"East Los Santos", 2028},
-	{!"Los Flores", 2085},
-	{!"Downtown Los Santos", 2027},
-	{!"Mulholland Intersection", 2101},
-	{!"Mulholland", 2100},
-	{!"Market", 2093},
-	{!"Vinewood", 2158},
-	{!"Temple", 2138},
-	{!"Santa Maria Beach", 2131},
-	{!"Rodeo", 2125},
-	{!"Richman", 2121},
-	{!"The Strip", 2078},
-	{!"The Four Dragons Casino", 2144},
-	{!"The Pink Swan", 2148},
-	{!"The High Roller", 2145},
-	{!"Pirates in Mens Pants", 2149},
-	{!"The Visage", 2151},
-	{!"Julius Thruway South", 2067},
-	{!"Julius Thruway West", 2068},
-	{!"Rockshore East", 2123},
-	{!"Come-A-Lot", 2020},
-	{!"The Camels Toe", 2140},
-	{!"Royal Casino", 2126},
-	{!"Caligulas Palace", 2016},
-	{!"Pilgrim", 2111},
-	{!"Starfish Casino", 2136},
-	{!"The Emerald Isle", 2142},
-	{!"Old Venturas Strip", 2106},
-	{!"K.A.C.C. Military Fuels", 2071},
-	{!"Creek", 2111},
-	{!"Sobell Rail Yards", 2134},
-	{!"Linden Station", 2082},
-	{!"Julius Thruway East", 2065},
-	{!"Linden Side", 2081},
-	{!"Julius Thruway North", 2066},
-	{!"Harry Gold Parkway", 2060},
-	{!"Redsands East", 2118},
-	{!"Redsands West", 2119},
-	{!"Las Venturas Airport", 2090},
-	{!"LVA Freight Depot", 2091},
-	{!"Blackfield Intersection", 2012},
-	{!"Greenglass College", 2056},
-	{!"Blackfield", 2010},
-	{!"Roca Escalante", 2122},
-	{!"Last Dime Motel", 2077},
-	{!"Rockshore West", 2124},
-	{!"Randolph Industrial Estate", 2116},
-	{!"Blackfield Chapel", 2011},
-	{!"Pilson Intersection", 2112},
-	{!"Whitewood Estates", 2160},
-	{!"Prickle Pine", 2114},
-	{!"Spinybed", 2135},
-	{!"San Andreas Sound", 2127},
-	{!"Fishers Lagoon", 2043},
-	{!"Garver Bridge", 2054},
-	{!"Kincaid Bridge", 2072},
-	{!"Los Santos Inlet", 2087},
-	{!"Sherman Reservoir", 2133},
-	{!"Flint Water", 2047},
-	{!"Easter Tunnel", 2030},
-	{!"Bayside Tunnel", 2008},
-	{!"The Big Ear", 2139},
-	{!"Lil Probe Inn", 2080},
-	{!"Valle Ocultado", 2154},
-	{!"Unity Station", 2153},
-	{!"Market Station", 2094},
-	{!"Cranberry Station", 2023},
-	{!"Yellow Bell Station", 2163},
-	{!"San Fierro Bay", 2129},
-	{!"El Castillo del Diablo", 2034},
-	{!"Restricted Area", 2015},
-	{!"Montgomery Intersection", 2098},
-	{!"Robada Intersection", 2152},
-	{!"Flint Intersection", 2045},
-	{!"Avispa Country Club", 2003},
-	{!"Missionary Hill", 2096},
-	{!"Mount Chiliad", 2099},
-	{!"Yellow Bell Golf Course", 2162},
-	{!"Beacon Hill", 2009},
-	{!"Playa del Seville", 2113},
-	{!"The Clowns Pocket", 2141},
-	{!"Los Santos", 2086},
-	{!"Las Venturas", 2078},
-	{!"Bone County", 2015},
-	{!"Tierra Robada", 2152},
-	{!"San Fierro", 2128},
-	{!"Red County", 2117},
-	{!"Flint County", 2044},
-	{!"Whetstone", 2159}
+new MapZoneData[][E_MAP_ZONE_DATA] = {	
+	{!"Bayside Marina", 2007, 1},
+	{!"Bayside", 2006, 1},
+	{!"Battery Point", 2005, 1},
+	{!"Paradiso", 2110, 1},
+	{!"Santa Flora", 2130, 1},
+	{!"Palisades", 2108, 1},
+	{!"City Hall", 2019, 1},
+	{!"Ocean Flats", 2104, 3},
+	{!"Foster Valley", 2049, 4},
+	{!"Hashbury", 2061, 1},
+	{!"Juniper Hollow", 2070, 1},
+	{!"Esplanade North", 2038, 3},
+	{!"Financial", 2042, 1},
+	{!"Calton Heights", 2017, 1},
+	{!"Downtown", 2026, 6},
+	{!"Juniper Hill", 2069, 1},
+	{!"Chinatown", 2018, 1},
+	{!"Kings", 2073, 3},
+	{!"Garcia", 2053, 2},
+	{!"Doherty", 2025, 2},
+	{!"Easter Bay Airport", 2031, 8},
+	{!"Easter Basin", 2030, 2},
+	{!"Esplanade East", 2037, 3},
+	{!"Angel Pine", 2001, 1},
+	{!"Shady Cabin", 2132, 1},
+	{!"Back o Beyond", 2004, 1},
+	{!"Leafy Hollow", 2079, 1},
+	{!"Flint Range", 2046, 1},
+	{!"Fallen Tree", 2039, 1},
+	{!"The Farm", 2143, 1},
+	{!"El Quebrados", 2036, 1},
+	{!"Aldea Malvada", 2000, 1},
+	{!"The Sherman Dam", 2150, 1},
+	{!"Las Barrancas", 2074, 1},
+	{!"Fort Carson", 2048, 1},
+	{!"Hunter Quarry", 2063, 1},
+	{!"Octane Springs", 2105, 1},
+	{!"Green Palms", 2057, 1},
+	{!"Regular Tom", 2120, 1},
+	{!"Las Brujas", 2075, 1},
+	{!"Verdant Meadows", 2156, 1},
+	{!"Las Payasadas", 2076, 1},
+	{!"Arco del Oeste", 2002, 1},
+	{!"Hankypanky Point", 2059, 1},
+	{!"Palomino Creek", 2109, 1},
+	{!"North Rock", 2102, 1},
+	{!"Montgomery", 2097, 2},
+	{!"Hampton Barns", 2058, 1},
+	{!"Fern Ridge", 2041, 1},
+	{!"Dillimore", 2024, 1},
+	{!"Hilltop Farm", 2062, 1},
+	{!"Blueberry", 2014, 2},
+	{!"The Panopticon", 2147, 1},
+	{!"Frederick Bridge", 2050, 1},
+	{!"The Mako Span", 2146, 1},
+	{!"Blueberry Acres", 2013, 1},
+	{!"Martin Bridge", 2095, 1},
+	{!"Fallow Bridge", 2040, 1},
+	{!"Shady Creeks", 2132, 2},
+	{!"Queens", 2115, 3},
+	{!"Gant Bridge", 2052, 2},
+	{!"Easter Bay Chemicals", 2032, 2},
+	{!"Los Santos International", 2088, 6},
+	{!"Verdant Bluffs", 2155, 3},
+	{!"El Corona", 2035, 2},
+	{!"Willowfield", 2161, 7},
+	{!"Ocean Docks", 2103, 7},
+	{!"Marina", 2092, 3},
+	{!"Verona Beach", 2157, 5},
+	{!"Conference Center", 2022, 2},
+	{!"Commerce", 2021, 6},
+	{!"Pershing Square", 2021, 1},
+	{!"Little Mexico", 2083, 2},
+	{!"Idlewood", 2064, 6},
+	{!"Glen Park", 2055, 3},
+	{!"Jefferson", 2028, 6},
+	{!"Las Colinas", 2084, 7},
+	{!"Ganton", 2051, 2},
+	{!"East Beach", 2029, 4},
+	{!"East Los Santos", 2028, 7},
+	{!"Los Flores", 2085, 2},
+	{!"Downtown Los Santos", 2027, 9},
+	{!"Mulholland Intersection", 2101, 1},
+	{!"Mulholland", 2100, 13},
+	{!"Market", 2093, 4},
+	{!"Vinewood", 2158, 4},
+	{!"Temple", 2138, 6},
+	{!"Santa Maria Beach", 2131, 2},
+	{!"Rodeo", 2125, 12},
+	{!"Richman", 2121, 10},
+	{!"The Strip", 2078, 4},
+	{!"The Four Dragons Casino", 2144, 1},
+	{!"The Pink Swan", 2148, 1},
+	{!"The High Roller", 2145, 1},
+	{!"Pirates in Mens Pants", 2149, 1},
+	{!"The Visage", 2151, 2},
+	{!"Julius Thruway South", 2067, 2},
+	{!"Julius Thruway West", 2068, 2},
+	{!"Rockshore East", 2123, 1},
+	{!"Come-A-Lot", 2020, 1},
+	{!"The Camels Toe", 2140, 1},
+	{!"Royal Casino", 2126, 1},
+	{!"Caligulas Palace", 2016, 2},
+	{!"Pilgrim", 2111, 2},
+	{!"Starfish Casino", 2136, 3},
+	{!"The Emerald Isle", 2142, 1},
+	{!"Old Venturas Strip", 2106, 1},
+	{!"K.A.C.C. Military Fuels", 2071, 1},
+	{!"Creek", 2111, 1},
+	{!"Sobell Rail Yards", 2134, 1},
+	{!"Linden Station", 2082, 2},
+	{!"Julius Thruway East", 2065, 4},
+	{!"Linden Side", 2081, 1},
+	{!"Julius Thruway North", 2066, 8},
+	{!"Harry Gold Parkway", 2060, 1},
+	{!"Redsands East", 2118, 3},
+	{!"Redsands West", 2119, 4},
+	{!"Las Venturas Airport", 2090, 4},
+	{!"LVA Freight Depot", 2091, 5},
+	{!"Blackfield Intersection", 2012, 4},
+	{!"Greenglass College", 2056, 2},
+	{!"Blackfield", 2010, 2},
+	{!"Roca Escalante", 2122, 2},
+	{!"Last Dime Motel", 2077, 1},
+	{!"Rockshore West", 2124, 2},
+	{!"Randolph Industrial Estate", 2116, 1},
+	{!"Blackfield Chapel", 2011, 2},
+	{!"Pilson Intersection", 2112, 1},
+	{!"Whitewood Estates", 2160, 2},
+	{!"Prickle Pine", 2114, 4},
+	{!"Spinybed", 2135, 1},
+	{!"San Andreas Sound", 2127, 1},
+	{!"Fishers Lagoon", 2043, 1},
+	{!"Garver Bridge", 2054, 3},
+	{!"Kincaid Bridge", 2072, 3},
+	{!"Los Santos Inlet", 2087, 1},
+	{!"Sherman Reservoir", 2133, 1},
+	{!"Flint Water", 2047, 1},
+	{!"Easter Tunnel", 2030, 1},
+	{!"Bayside Tunnel", 2008, 1},
+	{!"The Big Ear", 2139, 1},
+	{!"Lil Probe Inn", 2080, 1},
+	{!"Valle Ocultado", 2154, 1},
+	{!"Unity Station", 2153, 1},
+	{!"Market Station", 2094, 1},
+	{!"Cranberry Station", 2023, 1},
+	{!"Yellow Bell Station", 2163, 1},
+	{!"San Fierro Bay", 2129, 2},
+	{!"El Castillo del Diablo", 2034, 3},
+	{!"Restricted Area", 2015, 1},
+	{!"Montgomery Intersection", 2098, 2},
+	{!"Robada Intersection", 2152, 1},
+	{!"Flint Intersection", 2045, 1},
+	{!"Avispa Country Club", 2003, 6},
+	{!"Missionary Hill", 2096, 1},
+	{!"Mount Chiliad", 2099, 4},
+	{!"Yellow Bell Golf Course", 2162, 2},
+	{!"Beacon Hill", 2009, 1},
+	{!"Playa del Seville", 2113, 1},
+	{!"The Clowns Pocket", 2141, 1},
+	{!"Los Santos", 2086, 1},
+	{!"Las Venturas", 2078, 1},
+	{!"Bone County", 2015, 1},
+	{!"Tierra Robada", 2152, 2},
+	{!"San Fierro", 2128, 1},
+	{!"Red County", 2117, 1},
+	{!"Flint County", 2044, 1},
+	{!"Whetstone", 2159, 1}
 };
 
 enum E_MAP_ZONE_AREA_DATA {
@@ -370,7 +372,7 @@ enum E_MAP_ZONE_AREA_DATA {
 	Float:E_MAP_ZONE_AREA_MAX_Z
 };
 
-static const MapZoneAreaData[][E_MAP_ZONE_AREA_DATA] = {
+new MapZoneAreaData[][E_MAP_ZONE_AREA_DATA] = {
 	{ZONE_SAN_FIERRO, -2997.469970, -1115.579956, -242.990005, -1213.910034, 1659.680053, 900.000000},
 	{ZONE_TIERRA_ROBADA, -2997.469970, 1659.680053, -242.990005, -480.539001, 2993.870117, 900.000000},
 	{ZONE_WHETSTONE, -2997.469970, -2892.969970, -242.990005, -1213.910034, -1115.579956, 900.000000},
@@ -791,15 +793,13 @@ stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
 		}
 	}
 
-	while (index >= 0) {
+	for (; index >= 0; index--) {
 		if (x < MapZoneAreaData[index][E_MAP_ZONE_AREA_MAX_X] && 
 			(MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_Y] <= y < MapZoneAreaData[index][E_MAP_ZONE_AREA_MAX_Y]) && 
 			(MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_Z] <= z < MapZoneAreaData[index][E_MAP_ZONE_AREA_MAX_Z])
 		) {
 			return MapZoneAreaData[index][E_MAP_ZONE_AREA_ID];
 		}
-
-		index--;
 	}
 
 	return INVALID_MAP_ZONE_ID;
@@ -863,38 +863,29 @@ stock bool:GetMapZoneAreaCount(MapZone:id, &count) {
 		return false;
 	}
 
-	count = 0;
-
-	for (new i, j = sizeof(MapZoneAreaData); i < j; i++) {
-		if (MapZoneAreaData[i][E_MAP_ZONE_AREA_ID] == id) {
-			count++;
-		}
-	}
-
+	count = MapZoneData[_:id][E_MAP_ZONE_AREA_COUNT];
 	return true;
 }
 
 
-stock bool:GetMapZoneAreaPos(MapZone:id, area, &Float:minX = 0.0, &Float:minY = 0.0, &Float:minZ = 0.0, &Float:maxX = 0.0, &Float:maxY = 0.0, &Float:maxZ = 0.0) {
-	if (!IsValidMapZone(id)) {
-		return false;
+stock GetMapZoneAreaPos(MapZone:id, &Float:minX = 0.0, &Float:minY = 0.0, &Float:minZ = 0.0, &Float:maxX = 0.0, &Float:maxY = 0.0, &Float:maxZ = 0.0, start = 0) {
+	if (!IsValidMapZone(id) || start < 0) {
+		return -1;
 	}
 
-	new count;
+	for (new size = sizeof(MapZoneAreaData); start < size; start++) {
+		if (MapZoneAreaData[start][E_MAP_ZONE_AREA_ID] == id) {
+			minX = MapZoneAreaData[start][E_MAP_ZONE_AREA_MIN_X];
+			minY = MapZoneAreaData[start][E_MAP_ZONE_AREA_MIN_Y];
+			minZ = MapZoneAreaData[start][E_MAP_ZONE_AREA_MIN_Z];
 
-	for (new i, j = sizeof(MapZoneAreaData); i < j; i++) {
-		if (MapZoneAreaData[i][E_MAP_ZONE_AREA_ID] == id && count++ == area) {
-			minX = MapZoneAreaData[i][E_MAP_ZONE_AREA_MIN_X];
-			minY = MapZoneAreaData[i][E_MAP_ZONE_AREA_MIN_Y];
-			minZ = MapZoneAreaData[i][E_MAP_ZONE_AREA_MIN_Z];
+			maxX = MapZoneAreaData[start][E_MAP_ZONE_AREA_MAX_X];
+			maxY = MapZoneAreaData[start][E_MAP_ZONE_AREA_MAX_Y];
+			maxZ = MapZoneAreaData[start][E_MAP_ZONE_AREA_MAX_Z];
 
-			maxX = MapZoneAreaData[i][E_MAP_ZONE_AREA_MAX_X];
-			maxY = MapZoneAreaData[i][E_MAP_ZONE_AREA_MAX_Y];
-			maxZ = MapZoneAreaData[i][E_MAP_ZONE_AREA_MAX_Z];
-
-			return true;
+			return start;
 		}
 	}
 
-	return false;
+	return -1;
 }
