@@ -755,11 +755,7 @@ static const MapZoneAreaData[][E_MAP_ZONE_AREA_DATA] = {
 };
 
 
-stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
-	if (!(-2997.469970 <= x < 2997.060058) || !(-2892.969970 <= y < 2993.870117) || !(-242.990005 <= z < 900.000000)) {
-		return INVALID_MAP_ZONE_ID;
-	}
-
+static stock _GetMapZoneLoopStartIndex(Float:x) {
 	new size = sizeof(MapZoneAreaData), index, left = EXCLUDED_MAP_ZONE_AREA_COUNT, right = size - 1, bool:found;
 
 	while (left <= right) {
@@ -793,7 +789,17 @@ stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
 		}
 	}
 
-	for (; index >= 0; index--) {
+	return index;
+}
+
+
+#define GetMapZoneAtPoint3D GetMapZoneAtPoint
+stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
+	if (!(-2997.469970 <= x < 2997.060058) || !(-2892.969970 <= y < 2993.870117) || !(-242.990005 <= z < 900.000000)) {
+		return INVALID_MAP_ZONE_ID;
+	}
+
+	for (new index = _GetMapZoneLoopStartIndex(x); index >= 0; index--) {
 		if (x < MapZoneAreaData[index][E_MAP_ZONE_AREA_MAX_X] && 
 			(MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_Y] <= y < MapZoneAreaData[index][E_MAP_ZONE_AREA_MAX_Y]) && 
 			(MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_Z] <= z < MapZoneAreaData[index][E_MAP_ZONE_AREA_MAX_Z])
@@ -806,6 +812,7 @@ stock MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z) {
 }
 
 
+#define GetPlayerMapZone3D GetPlayerMapZone
 stock MapZone:GetPlayerMapZone(playerid) {
 	new Float:x, Float:y, Float:z;
 
@@ -817,6 +824,7 @@ stock MapZone:GetPlayerMapZone(playerid) {
 }
 
 
+#define GetVehicleMapZone3D GetVehicleMapZone
 stock MapZone:GetVehicleMapZone(vehicleid) {
 	new Float:x, Float:y, Float:z;
 
@@ -825,6 +833,45 @@ stock MapZone:GetVehicleMapZone(vehicleid) {
 	}
 
 	return GetMapZoneAtPoint(x, y, z);
+}
+
+
+stock MapZone:GetMapZoneAtPoint2D(Float:x, Float:y) {
+	if (!(-2997.469970 <= x < 2997.060058) || !(-2892.969970 <= y < 2993.870117)) {
+		return INVALID_MAP_ZONE_ID;
+	}
+
+	for (new index = _GetMapZoneLoopStartIndex(x); index >= 0; index--) {
+		if (x < MapZoneAreaData[index][E_MAP_ZONE_AREA_MAX_X] && 
+			(MapZoneAreaData[index][E_MAP_ZONE_AREA_MIN_Y] <= y < MapZoneAreaData[index][E_MAP_ZONE_AREA_MAX_Y])
+		) {
+			return MapZoneAreaData[index][E_MAP_ZONE_AREA_ID];
+		}
+	}
+
+	return INVALID_MAP_ZONE_ID;
+}
+
+
+stock MapZone:GetPlayerMapZone2D(playerid) {
+	new Float:x, Float:y, Float:z;
+
+	if (!GetPlayerPos(playerid, x, y, z)) {
+		return INVALID_MAP_ZONE_ID;
+	}
+
+	return GetMapZoneAtPoint2D(x, y);
+}
+
+
+stock MapZone:GetVehicleMapZone2D(vehicleid) {
+	new Float:x, Float:y, Float:z;
+
+	if (!GetVehiclePos(vehicleid, x, y, z)) {
+		return INVALID_MAP_ZONE_ID;
+	}
+
+	return GetMapZoneAtPoint2D(x, y);
 }
 
 
