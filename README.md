@@ -141,13 +141,22 @@ Include in your code and begin using the library:
 
 - `MapZone:GetMapZoneAtPoint(Float:x, Float:y, Float:z)`
   - Returns the ID of the map zone the point is in or `INVALID_MAP_ZONE_ID` if
-    it isn't in any.
+    it isn't in any. Alias: `GetMapZoneAtPoint3D`.
 - `MapZone:GetPlayerMapZone(playerid)`
   - Returns the ID of the map zone the player is in or `INVALID_MAP_ZONE_ID` if
-    it isn't in any.
+    it isn't in any. Alias: `GetPlayerMapZone3D`.
 - `MapZone:GetVehicleMapZone(vehicleid)`
   - Returns the ID of the map zone the vehicle is in or `INVALID_MAP_ZONE_ID` if
-    it isn't in any.
+    it isn't in any. Alias: `GetVehicleMapZone3D`.
+- `MapZone:GetMapZoneAtPoint2D(Float:x, Float:y)`
+  - Returns the ID of the map zone the point is in or `INVALID_MAP_ZONE_ID` if
+    it isn't in any. Does not check the Z-coordinate.
+- `MapZone:GetPlayerMapZone2D(playerid)`
+  - Returns the ID of the map zone the player is in or `INVALID_MAP_ZONE_ID` if
+    it isn't in any. Does not check the Z-coordinate.
+- `MapZone:GetVehicleMapZone2D(vehicleid)`
+  - Returns the ID of the map zone the vehicle is in or `INVALID_MAP_ZONE_ID` if
+    it isn't in any. Does not check the Z-coordinate.
 - `bool:IsValidMapZone(MapZone:id)`
   - Returns `true` or `false` depending on if the map zone is valid or not.
 - `bool:GetMapZoneName(MapZone:id, name[], size = sizeof(name))`
