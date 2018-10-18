@@ -208,7 +208,6 @@ new zone = ZONE_RICHMAN, index = -1, Float:minX, Float:minY, Float:minZ, Float:m
 
 while ((index = GetMapZoneAreaPos(zone, minX, minY, minZ, maxX, maxY, maxZ, index + 1) != -1) {
     printf("%f %f %f %f %f %f", minX, minY, minZ, maxX, maxY, maxZ);
-    area++;
 }
 ```
 
