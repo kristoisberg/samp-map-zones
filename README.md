@@ -1,6 +1,8 @@
 # SA-MP Map Zones
 
-[![sampctl](https://shields.southcla.ws/badge/sampctl-samp--map--zones-2f2f2f.svg?style=for-the-badge)](https://github.com/kristoisberg/samp-map-zones)
+[![sampctl](https://img.shields.io/badge/sampctl-samp--map--zones-2f2f2f.svg?style=for-the-badge)](https://github.com/kristoisberg/samp-map-zones)
+
+**Notice:** This repository is not being actively maintained anymore. If anyone wishes to continue the development of the project, please create a fork of the repository and release future versions there.
 
 This library does not bring anything gamechanging to the table, it's created to
 stop a decade long era of bad practices regarding map zones. An array of ~350
